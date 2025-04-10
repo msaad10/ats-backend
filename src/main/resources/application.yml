@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ats_db
     username: postgres
-    password: postgres
+    password: password
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 20000
