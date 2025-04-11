@@ -1,7 +1,7 @@
 package com.ats.model;
 
 public enum Role {
-    ADMIN,
+    CANDIDATE,
     RECRUITER,
     INTERVIEWER
 } 

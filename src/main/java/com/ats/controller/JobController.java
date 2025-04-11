@@ -26,19 +26,19 @@ public class JobController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER')")
+    @PreAuthorize("hasRole('RECRUITER')")
     public ResponseEntity<Job> createJob(@RequestBody Job job) {
         return ResponseEntity.ok(jobService.createJob(job));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER')")
+    @PreAuthorize("hasRole('RECRUITER')")
     public ResponseEntity<Job> updateJob(@PathVariable Long id, @RequestBody Job jobDetails) {
         return ResponseEntity.ok(jobService.updateJob(id, jobDetails));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER')")
+    @PreAuthorize("hasRole('RECRUITER')")
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
         jobService.deleteJob(id);
         return ResponseEntity.ok().build();
