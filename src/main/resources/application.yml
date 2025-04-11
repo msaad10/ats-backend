@@ -25,7 +25,7 @@ spring:
           time_zone: UTC
   security:
     jwt:
-      secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      secret: 4e81cb9a0e9049caa2d39f228db6225a5b2d4fc1d37d45c4bd2922c3b59e58df
       expiration: 86400000 # 24 hours in milliseconds
   servlet:
     multipart:

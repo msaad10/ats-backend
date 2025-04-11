@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/interviews")
+@RequestMapping("/interviews")
 public class ScheduledInterviewController {
 
     @Autowired

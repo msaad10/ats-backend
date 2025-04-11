@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/candidates")
+@RequestMapping("/candidates")
 @RequiredArgsConstructor
 public class CandidateController {
     private final CandidateService candidateService;
