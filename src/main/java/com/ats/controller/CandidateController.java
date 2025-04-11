@@ -3,6 +3,9 @@ package com.ats.controller;
 import com.ats.model.Candidate;
 import com.ats.service.CandidateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -51,5 +54,15 @@ public class CandidateController {
     @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<String> uploadResume(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(candidateService.uploadResume(file));
+    }
+
+    @GetMapping("/resume/{userId}")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
+    public ResponseEntity<Resource> downloadResume(@PathVariable Long userId) {
+        Resource resource = candidateService.downloadResume(userId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 } 

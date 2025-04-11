@@ -10,11 +10,14 @@ import com.ats.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,6 +86,34 @@ public class CandidateService {
             return "Resume uploaded successfully: " + filename;
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload resume: " + e.getMessage());
+        }
+    }
+
+    public Resource downloadResume(Long userId) {
+        try {
+            // Get all files in the resumes directory
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                throw new RuntimeException("Resumes directory not found");
+            }
+
+            // Find the file that starts with the userId
+            Path resumeFile = Files.list(uploadPath)
+                    .filter(path -> path.getFileName().toString().startsWith(userId + "."))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Resume not found for user: " + userId));
+
+            // Load the file as a resource
+            Resource resource = new UrlResource(resumeFile.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 } 
