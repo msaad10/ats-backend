@@ -4,6 +4,7 @@ import com.ats.model.Candidate;
 import com.ats.service.CandidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,11 +47,9 @@ public class CandidateController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/uploadResume")
-    public ResponseEntity<String> uploadResume(
-            @PathVariable Long id,
-            @RequestParam("file") MultipartFile file) throws IOException {
-        String resumeUrl = candidateService.uploadResume(id, file);
-        return ResponseEntity.ok(resumeUrl);
+    @PostMapping("/resume")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    public ResponseEntity<String> uploadResume(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(candidateService.uploadResume(file));
     }
 } 

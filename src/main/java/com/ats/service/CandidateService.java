@@ -5,8 +5,12 @@ import com.ats.model.CandidateStage;
 import com.ats.model.Job;
 import com.ats.repository.CandidateRepository;
 import com.ats.repository.JobRepository;
+import com.ats.model.User;
+import com.ats.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,14 +19,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class CandidateService {
     private final CandidateRepository candidateRepository;
     private final JobRepository jobRepository;
-    private final String uploadDir = "uploads/resumes";
+    private final UserRepository userRepository;
+    private static final String UPLOAD_DIR = "src/main/resources/resumes/";
 
     public List<Candidate> getAllCandidates() {
         return candidateRepository.findAll();
@@ -55,29 +59,30 @@ public class CandidateService {
         candidateRepository.delete(candidate);
     }
 
-    public String uploadResume(Long candidateId, MultipartFile file) throws IOException {
-        Candidate candidate = getCandidateById(candidateId);
-        
-        // Create upload directory if it doesn't exist
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+    public String uploadResume(MultipartFile file) {
+        try {
+            // Get the current user
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            // Create upload directory if it doesn't exist
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // Generate filename using user ID and original extension
+            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+            String filename = user.getId() + "." + extension;
+
+            // Save the file
+            Path filePath = uploadPath.resolve(filename);
+            Files.copy(file.getInputStream(), filePath);
+
+            return "Resume uploaded successfully: " + filename;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload resume: " + e.getMessage());
         }
-
-        // Generate unique filename
-        String originalFilename = file.getOriginalFilename();
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String filename = UUID.randomUUID().toString() + extension;
-        
-        // Save file
-        Path filePath = uploadPath.resolve(filename);
-        Files.copy(file.getInputStream(), filePath);
-
-        // Update candidate's resume URL
-        String resumeUrl = "/uploads/resumes/" + filename;
-        candidate.setResumeUrl(resumeUrl);
-        candidateRepository.save(candidate);
-
-        return resumeUrl;
     }
 } 
