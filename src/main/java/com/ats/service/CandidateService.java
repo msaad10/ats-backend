@@ -1,10 +1,5 @@
 package com.ats.service;
 
-import com.ats.model.Candidate;
-import com.ats.model.CandidateStage;
-import com.ats.model.Job;
-import com.ats.repository.CandidateRepository;
-import com.ats.repository.JobRepository;
 import com.ats.model.User;
 import com.ats.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,40 +21,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CandidateService {
-    private final CandidateRepository candidateRepository;
-    private final JobRepository jobRepository;
     private final UserRepository userRepository;
     private static final String UPLOAD_DIR = "src/main/resources/resumes/";
 
-    public List<Candidate> getAllCandidates() {
-        return candidateRepository.findAll();
+    public List<User> getAllCandidates() {
+        return userRepository.findAll();
     }
 
-    public Candidate getCandidateById(Long id) {
-        return candidateRepository.findById(id)
+    public User getCandidateById(Long id) {
+        return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Candidate not found with id: " + id));
-    }
-
-    public Candidate createCandidate(Candidate candidate, Long jobId) {
-        Job job = jobRepository.findById(jobId)
-                .orElseThrow(() -> new EntityNotFoundException("Job not found with id: " + jobId));
-        candidate.setAppliedJob(job);
-        candidate.setCurrentStage(CandidateStage.APPLIED);
-        return candidateRepository.save(candidate);
-    }
-
-    public Candidate updateCandidate(Long id, Candidate candidateDetails) {
-        Candidate candidate = getCandidateById(id);
-        candidate.setName(candidateDetails.getName());
-        candidate.setEmail(candidateDetails.getEmail());
-        candidate.setPhone(candidateDetails.getPhone());
-        candidate.setCurrentStage(candidateDetails.getCurrentStage());
-        return candidateRepository.save(candidate);
-    }
-
-    public void deleteCandidate(Long id) {
-        Candidate candidate = getCandidateById(id);
-        candidateRepository.delete(candidate);
     }
 
     public String uploadResume(MultipartFile file) {

@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface JobCandidateRepository extends JpaRepository<JobCandidate, Long> {
     List<JobCandidate> findByJobId(Long jobId);
-    List<JobCandidate> findByCandidateId(Long candidateId);
-    boolean existsByJobIdAndCandidateId(Long jobId, Long candidateId);
+    List<JobCandidate> findByUserId(Long userId);
+    boolean existsByJobIdAndUserId(Long jobId, Long userId);
 } 

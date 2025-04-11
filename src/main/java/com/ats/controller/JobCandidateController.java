@@ -4,7 +4,6 @@ import com.ats.model.JobCandidate;
 import com.ats.service.JobCandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +15,8 @@ public class JobCandidateController {
     @Autowired
     private JobCandidateService jobCandidateService;
 
-    @PostMapping("/apply")
-    @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<JobCandidate> applyJob(@RequestBody JobCandidate jobCandidate) {
+    @PostMapping
+    public ResponseEntity<JobCandidate> createJobCandidate(@RequestBody JobCandidate jobCandidate) {
         return ResponseEntity.ok(jobCandidateService.createJobCandidate(jobCandidate));
     }
 
@@ -32,9 +30,9 @@ public class JobCandidateController {
         return ResponseEntity.ok(jobCandidateService.getJobCandidatesByJob(jobId));
     }
 
-    @GetMapping("/candidate/{candidateId}")
-    public ResponseEntity<List<JobCandidate>> getJobCandidatesByCandidate(@PathVariable Long candidateId) {
-        return ResponseEntity.ok(jobCandidateService.getJobCandidatesByCandidate(candidateId));
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<JobCandidate>> getJobCandidatesByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(jobCandidateService.getJobCandidatesByUser(userId));
     }
 
     @PutMapping("/{id}")

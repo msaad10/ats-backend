@@ -24,22 +24,21 @@ public class JobCandidate {
     private Job job;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "candidate_id", nullable = false)
-    private Candidate candidate;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CandidateStage currentStage;
+    private String currentStage;
 
     @Column(nullable = false)
     private LocalDateTime appliedAt;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String notes;
 
     @PrePersist
     protected void onCreate() {
         appliedAt = LocalDateTime.now();
-        currentStage = CandidateStage.APPLIED;
+        currentStage = CandidateStage.APPLIED.toString();
     }
 } 

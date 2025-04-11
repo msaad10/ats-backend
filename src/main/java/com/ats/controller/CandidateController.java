@@ -1,6 +1,6 @@
 package com.ats.controller;
 
-import com.ats.model.Candidate;
+import com.ats.model.User;
 import com.ats.service.CandidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -8,10 +8,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,34 +26,13 @@ public class CandidateController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
-    public ResponseEntity<List<Candidate>> getAllCandidates() {
+    public ResponseEntity<List<User>> getAllCandidates() {
         return ResponseEntity.ok(candidateService.getAllCandidates());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Candidate> getCandidateById(@PathVariable Long id) {
+    public ResponseEntity<User> getCandidateById(@PathVariable Long id) {
         return ResponseEntity.ok(candidateService.getCandidateById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<Candidate> createCandidate(
-            @RequestBody Candidate candidate,
-            @RequestParam Long jobId) {
-        return ResponseEntity.ok(candidateService.createCandidate(candidate, jobId));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Candidate> updateCandidate(
-            @PathVariable Long id,
-            @RequestBody Candidate candidateDetails) {
-        return ResponseEntity.ok(candidateService.updateCandidate(id, candidateDetails));
-    }
-
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
-    public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
-        candidateService.deleteCandidate(id);
-        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/resume")

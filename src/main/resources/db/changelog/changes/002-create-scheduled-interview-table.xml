@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="002-create-scheduled-interview-table" author="ats">
+        <createTable tableName="scheduled_interview">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="job_candidate_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_scheduled_interview_job_candidate"
+                            referencedTableName="job_candidate" referencedColumnNames="id"/>
+            </column>
+            <column name="interviewer_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_scheduled_interview_interviewer"
+                            referencedTableName="users" referencedColumnNames="id"/>
+            </column>
+            <column name="date_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="details" type="TEXT"/>
+            <column name="interview_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="result" type="VARCHAR(50)"/>
+            <column name="feedback" type="TEXT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="scheduled_interview"
+                                baseColumnNames="job_candidate_id"
+                                constraintName="fk_scheduled_interview_job_candidate"
+                                referencedTableName="job_candidate"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="scheduled_interview"
+                                baseColumnNames="interviewer_id"
+                                constraintName="fk_scheduled_interview_interviewer"
+                                referencedTableName="users"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog> 

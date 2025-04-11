@@ -14,10 +14,10 @@ public class JobCandidateService {
     private JobCandidateRepository jobCandidateRepository;
 
     public JobCandidate createJobCandidate(JobCandidate jobCandidate) {
-        if (jobCandidateRepository.existsByJobIdAndCandidateId(
+        if (jobCandidateRepository.existsByJobIdAndUserId(
                 jobCandidate.getJob().getId(), 
-                jobCandidate.getCandidate().getId())) {
-            throw new RuntimeException("Candidate has already applied for this job");
+                jobCandidate.getUser().getId())) {
+            throw new RuntimeException("User has already applied for this job");
         }
         return jobCandidateRepository.save(jobCandidate);
     }
@@ -31,8 +31,8 @@ public class JobCandidateService {
         return jobCandidateRepository.findByJobId(jobId);
     }
 
-    public List<JobCandidate> getJobCandidatesByCandidate(Long candidateId) {
-        return jobCandidateRepository.findByCandidateId(candidateId);
+    public List<JobCandidate> getJobCandidatesByUser(Long userId) {
+        return jobCandidateRepository.findByUserId(userId);
     }
 
     public JobCandidate updateJobCandidate(Long id, JobCandidate jobCandidate) {
