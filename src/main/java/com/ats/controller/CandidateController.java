@@ -21,6 +21,7 @@ public class CandidateController {
     private final CandidateService candidateService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
     public ResponseEntity<List<Candidate>> getAllCandidates() {
         return ResponseEntity.ok(candidateService.getAllCandidates());
     }
@@ -45,6 +46,7 @@ public class CandidateController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
     public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
         candidateService.deleteCandidate(id);
         return ResponseEntity.ok().build();
