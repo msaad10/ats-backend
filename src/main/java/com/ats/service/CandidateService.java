@@ -53,6 +53,7 @@ public class CandidateService {
 
             // Save the file
             Path filePath = uploadPath.resolve(filename);
+            Files.deleteIfExists(filePath);
             Files.copy(file.getInputStream(), filePath);
 
             return "Resume uploaded successfully: " + filename;
