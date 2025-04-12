@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class InterviewResponse {
     private Long id;
     private Long jobCandidateId;
+    private Long candidateId;
     private Long interviewerId;
     private String interviewerName;
     private String candidateName;

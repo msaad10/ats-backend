@@ -60,9 +60,8 @@ public class ScheduledInterviewService {
         return scheduledInterviewRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Interview not found"));
     }
-
-    public List<ScheduledInterview> getInterviewsByJobCandidate(Long jobCandidateId) {
-        return scheduledInterviewRepository.findByJobCandidateId(jobCandidateId);
+    public List<ScheduledInterview> getInterviewsByJobCandidate(Long candidateId) {
+        return scheduledInterviewRepository.findByJobCandidate_User_Id(candidateId);
     }
 
     public List<ScheduledInterview> getInterviewsByInterviewer(Long interviewerId) {

@@ -28,6 +28,7 @@ public class InterviewMapper {
         InterviewResponse response = new InterviewResponse();
         response.setId(interview.getId());
         response.setJobCandidateId(interview.getJobCandidate().getId());
+        response.setCandidateId(interview.getJobCandidate().getUser().getId());
         response.setInterviewerId(interview.getInterviewer().getId());
         response.setInterviewerName(interview.getInterviewer().getFirstName() + " " + interview.getInterviewer().getLastName());
         response.setCandidateName(interview.getJobCandidate().getUser().getFirstName() + " " + interview.getJobCandidate().getUser().getLastName());
