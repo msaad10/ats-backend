@@ -9,6 +9,7 @@ public class JobCandidateResponse {
     private String jobTitle;
     private Long userId;
     private String userName;
+    private String email;
     private String currentStage;
     private String notes;
     private String appliedAt;
