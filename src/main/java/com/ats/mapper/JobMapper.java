@@ -12,6 +12,7 @@ public class JobMapper {
         job.setTitle(request.getTitle());
         job.setDescription(request.getDescription());
         job.setLocation(request.getLocation());
+        job.setDepartment(request.getDepartment());
         return job;
     }
 
@@ -21,6 +22,7 @@ public class JobMapper {
         response.setTitle(job.getTitle());
         response.setDescription(job.getDescription());
         response.setLocation(job.getLocation());
+        response.setDepartment(job.getDepartment());
         response.setStatus(String.valueOf(job.getStatus()));
         response.setCreatedAt(job.getCreatedAt().toString());
         response.setUpdatedAt(job.getUpdatedAt().toString());

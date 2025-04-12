@@ -25,18 +25,17 @@ public class JobCandidateController {
     @PostMapping("/apply")
     @PreAuthorize("hasAnyRole('RECRUITER', 'CANDIDATE')")
     public ResponseEntity<JobCandidateResponse> applyJob(@RequestBody JobCandidateRequest request) {
-        return ResponseEntity.ok(jobCandidateMapper.toResponse(
-                jobCandidateService.createJobCandidate(jobCandidateMapper.toEntity(request))));
+        return ResponseEntity.ok(jobCandidateMapper.toResponse(jobCandidateService.createJobCandidate(request)));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'HIRING_MANAGER', 'INTERVIEWER', 'CANDIDATE')")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER', 'CANDIDATE')")
     public ResponseEntity<JobCandidateResponse> getJobCandidate(@PathVariable Long id) {
         return ResponseEntity.ok(jobCandidateMapper.toResponse(jobCandidateService.getJobCandidate(id)));
     }
 
     @GetMapping("/job/{jobId}")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'HIRING_MANAGER', 'INTERVIEWER')")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
     public ResponseEntity<List<JobCandidateResponse>> getJobCandidatesByJob(@PathVariable Long jobId) {
         return ResponseEntity.ok(jobCandidateService.getJobCandidatesByJob(jobId)
                 .stream()
@@ -45,7 +44,7 @@ public class JobCandidateController {
     }
 
     @GetMapping("/user/{userId}")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'HIRING_MANAGER', 'INTERVIEWER', 'CANDIDATE')")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER', 'CANDIDATE')")
     public ResponseEntity<List<JobCandidateResponse>> getJobCandidatesByUser(@PathVariable Long userId) {
         return ResponseEntity.ok(jobCandidateService.getJobCandidatesByUser(userId)
                 .stream()
@@ -54,16 +53,15 @@ public class JobCandidateController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'HIRING_MANAGER')")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
     public ResponseEntity<JobCandidateResponse> updateJobCandidate(
             @PathVariable Long id,
             @RequestBody JobCandidateRequest request) {
-        return ResponseEntity.ok(jobCandidateMapper.toResponse(
-                jobCandidateService.updateJobCandidate(id, jobCandidateMapper.toEntity(request))));
+        return ResponseEntity.ok(jobCandidateMapper.toResponse(jobCandidateService.updateJobCandidate(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'HIRING_MANAGER')")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
     public ResponseEntity<Void> deleteJobCandidate(@PathVariable Long id) {
         jobCandidateService.deleteJobCandidate(id);
         return ResponseEntity.ok().build();

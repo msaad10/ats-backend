@@ -25,8 +25,7 @@ public class JobController {
     @PostMapping
     @PreAuthorize("hasRole('RECRUITER')")
     public ResponseEntity<JobResponse> createJob(@RequestBody JobRequest request) {
-        return ResponseEntity.ok(jobMapper.toResponse(
-                jobService.createJob(jobMapper.toEntity(request))));
+        return ResponseEntity.ok(jobMapper.toResponse(jobService.createJob(request)));
     }
 
     @GetMapping("/{id}")
@@ -49,8 +48,7 @@ public class JobController {
     public ResponseEntity<JobResponse> updateJob(
             @PathVariable Long id,
             @RequestBody JobRequest request) {
-        return ResponseEntity.ok(jobMapper.toResponse(
-                jobService.updateJob(id, jobMapper.toEntity(request))));
+        return ResponseEntity.ok(jobMapper.toResponse(jobService.updateJob(id, request)));
     }
 
     @DeleteMapping("/{id}")

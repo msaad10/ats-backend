@@ -8,10 +8,7 @@ public class JobResponse {
     private String title;
     private String description;
     private String requirements;
-    private Long departmentId;
-    private String departmentName;
-    private Long hiringManagerId;
-    private String hiringManagerName;
+    private String department;
     private String location;
     private String employmentType;
     private String experienceLevel;

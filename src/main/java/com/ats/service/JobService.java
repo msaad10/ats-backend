@@ -1,6 +1,8 @@
 package com.ats.service;
 
+import com.ats.dto.job.JobRequest;
 import com.ats.model.Job;
+import com.ats.model.JobStatus;
 import com.ats.repository.JobRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -22,17 +24,22 @@ public class JobService {
                 .orElseThrow(() -> new EntityNotFoundException("Job not found with id: " + id));
     }
 
-    public Job createJob(Job job) {
+    public Job createJob(JobRequest request) {
+        Job job = new Job();
+        job.setTitle(request.getTitle());
+        job.setDescription(request.getDescription());
+        job.setLocation(request.getLocation());
+        job.setDepartment(request.getDepartment());
+        job.setStatus(JobStatus.OPEN);
         return jobRepository.save(job);
     }
 
-    public Job updateJob(Long id, Job jobDetails) {
+    public Job updateJob(Long id, JobRequest request) {
         Job job = getJobById(id);
-        job.setTitle(jobDetails.getTitle());
-        job.setDepartment(jobDetails.getDepartment());
-        job.setLocation(jobDetails.getLocation());
-        job.setDescription(jobDetails.getDescription());
-        job.setStatus(jobDetails.getStatus());
+        job.setTitle(request.getTitle());
+        job.setDescription(request.getDescription());
+        job.setLocation(request.getLocation());
+        job.setDepartment(request.getDepartment());
         return jobRepository.save(job);
     }
 
@@ -40,5 +47,4 @@ public class JobService {
         Job job = getJobById(id);
         jobRepository.delete(job);
     }
-
 } 

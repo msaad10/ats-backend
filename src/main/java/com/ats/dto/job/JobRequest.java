@@ -15,11 +15,8 @@ public class JobRequest {
     @NotBlank(message = "Requirements are required")
     private String requirements;
 
-    @NotNull(message = "Department ID is required")
-    private Long departmentId;
-
-    @NotNull(message = "Hiring manager ID is required")
-    private Long hiringManagerId;
+    @NotBlank(message = "Department is required")
+    private String department;
 
     private String location;
     private String employmentType;

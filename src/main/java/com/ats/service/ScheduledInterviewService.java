@@ -1,5 +1,7 @@
 package com.ats.service;
 
+import com.ats.dto.interview.ScheduleInterviewRequest;
+import com.ats.dto.interview.UpdateInterviewRequest;
 import com.ats.model.InterviewResult;
 import com.ats.model.ScheduledInterview;
 import com.ats.repository.ScheduledInterviewRepository;
@@ -15,20 +17,23 @@ public class ScheduledInterviewService {
     @Autowired
     private ScheduledInterviewRepository scheduledInterviewRepository;
 
-    public ScheduledInterview scheduleInterview(ScheduledInterview interview) {
+    public ScheduledInterview scheduleInterview(ScheduleInterviewRequest request) {
         // Validate that the interviewer is not already scheduled for this time
         List<ScheduledInterview> existingInterviews = scheduledInterviewRepository
                 .findByInterviewerIdAndDateTimeBetween(
-                        interview.getInterviewer().getId(),
-                        interview.getDateTime().minusHours(1),
-                        interview.getDateTime().plusHours(1)
+                        request.getInterviewerId(),
+                        request.getDateTime().minusHours(1),
+                        request.getDateTime().plusHours(1)
                 );
         
         if (!existingInterviews.isEmpty()) {
             throw new RuntimeException("Interviewer is already scheduled for this time slot");
         }
 
-        // Set initial result as PENDING
+        ScheduledInterview interview = new ScheduledInterview();
+        interview.setDateTime(request.getDateTime());
+        interview.setDetails(request.getDetails());
+        interview.setInterviewType(request.getInterviewType());
         interview.setResult(InterviewResult.PENDING);
         return scheduledInterviewRepository.save(interview);
     }
@@ -50,16 +55,13 @@ public class ScheduledInterviewService {
         return scheduledInterviewRepository.findByDateTimeBetween(start, end);
     }
 
-    public ScheduledInterview updateInterview(Long id, ScheduledInterview interview) {
+    public ScheduledInterview updateInterview(Long id, UpdateInterviewRequest request) {
         ScheduledInterview existingInterview = getInterview(id);
-        
-        // Only allow updating certain fields
-        existingInterview.setDateTime(interview.getDateTime());
-        existingInterview.setDetails(interview.getDetails());
-        existingInterview.setInterviewType(interview.getInterviewType());
-        existingInterview.setResult(interview.getResult());
-        existingInterview.setFeedback(interview.getFeedback());
-        
+        existingInterview.setDateTime(request.getDateTime());
+        existingInterview.setDetails(request.getDetails());
+        existingInterview.setInterviewType(request.getInterviewType());
+        existingInterview.setResult(request.getResult());
+        existingInterview.setFeedback(request.getFeedback());
         return scheduledInterviewRepository.save(existingInterview);
     }
 
