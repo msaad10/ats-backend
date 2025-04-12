@@ -1,5 +1,6 @@
 package com.ats.service;
 
+import com.ats.model.Role;
 import com.ats.model.User;
 import com.ats.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<User> getUsersByRole(String role) {
+    public List<User> getUsersByRole(Role role) {
         return userRepository.findByRole(role);
     }
 } 

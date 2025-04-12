@@ -2,6 +2,7 @@ package com.ats.controller;
 
 import com.ats.dto.UserResponse;
 import com.ats.mapper.UserMapper;
+import com.ats.model.Role;
 import com.ats.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class InterviewerController {
     @GetMapping
     @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
     public ResponseEntity<List<UserResponse>> getAllInterviewers() {
-        return ResponseEntity.ok(userService.getUsersByRole("INTERVIEWER")
+        return ResponseEntity.ok(userService.getUsersByRole(Role.INTERVIEWER)
                 .stream()
                 .map(userMapper::toResponse)
                 .collect(Collectors.toList()));

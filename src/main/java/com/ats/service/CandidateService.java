@@ -1,5 +1,6 @@
 package com.ats.service;
 
+import com.ats.model.Role;
 import com.ats.model.User;
 import com.ats.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,7 +26,7 @@ public class CandidateService {
     private static final String UPLOAD_DIR = "src/main/resources/resumes/";
 
     public List<User> getAllCandidates() {
-        return userRepository.findAll();
+        return userRepository.findByRole(Role.CANDIDATE);
     }
 
     public User getCandidateById(Long id) {
