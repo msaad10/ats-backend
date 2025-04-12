@@ -3,6 +3,7 @@ package com.ats.controller;
 import com.ats.dto.interview.InterviewResponse;
 import com.ats.dto.interview.ScheduleInterviewRequest;
 import com.ats.dto.interview.UpdateInterviewRequest;
+import com.ats.dto.interview.UpdateInterviewStatusRequest;
 import com.ats.mapper.InterviewMapper;
 import com.ats.service.ScheduledInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,27 +77,12 @@ public class ScheduledInterviewController {
         return ResponseEntity.ok(interviewMapper.toResponse(scheduledInterviewService.updateInterview(id, request)));
     }
 
-    @PutMapping("/{id}/pass")
+    @PutMapping("/{id}/status")
     @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
-    public ResponseEntity<InterviewResponse> passInterview(
+    public ResponseEntity<InterviewResponse> updateInterviewStatus(
             @PathVariable Long id,
-            @RequestParam String feedback) {
-        return ResponseEntity.ok(interviewMapper.toResponse(scheduledInterviewService.passInterview(id, feedback)));
-    }
-
-    @PutMapping("/{id}/reject")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
-    public ResponseEntity<InterviewResponse> rejectInterview(
-            @PathVariable Long id,
-            @RequestParam String feedback) {
-        return ResponseEntity.ok(interviewMapper.toResponse(scheduledInterviewService.rejectInterview(id, feedback)));
-    }
-
-    @PutMapping("/{id}/cancel")
-    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
-    public ResponseEntity<Void> cancelInterview(@PathVariable Long id) {
-        scheduledInterviewService.cancelInterview(id);
-        return ResponseEntity.ok().build();
+            @RequestBody UpdateInterviewStatusRequest request) {
+        return ResponseEntity.ok(interviewMapper.toResponse(scheduledInterviewService.updateInterviewStatus(id, request)));
     }
 
     @DeleteMapping("/{id}")
