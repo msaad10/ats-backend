@@ -15,8 +15,8 @@ public class JobCandidateController {
     @Autowired
     private JobCandidateService jobCandidateService;
 
-    @PostMapping
-    public ResponseEntity<JobCandidate> createJobCandidate(@RequestBody JobCandidate jobCandidate) {
+    @PostMapping("/apply")
+    public ResponseEntity<JobCandidate> applyJob(@RequestBody JobCandidate jobCandidate) {
         return ResponseEntity.ok(jobCandidateService.createJobCandidate(jobCandidate));
     }
 
