@@ -105,4 +105,14 @@ public class ScheduledInterviewController {
         scheduledInterviewService.deleteInterview(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/candidate/{candidateId}")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER', 'CANDIDATE')")
+    public ResponseEntity<List<InterviewResponse>> getInterviewsByCandidate(
+            @PathVariable Long candidateId) {
+        return ResponseEntity.ok(scheduledInterviewService.getInterviewsByCandidateId(candidateId)
+                .stream()
+                .map(interviewMapper::toResponse)
+                .collect(Collectors.toList()));
+    }
 } 

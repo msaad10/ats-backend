@@ -15,4 +15,5 @@ public interface ScheduledInterviewRepository extends JpaRepository<ScheduledInt
     List<ScheduledInterview> findByJobCandidateIdAndResult(Long jobCandidateId, String result);
     List<ScheduledInterview> findByInterviewerIdAndDateTimeBetween(
             Long interviewerId, LocalDateTime start, LocalDateTime end);
+    List<ScheduledInterview> findByJobCandidate_User_Id(Long userId);
 } 

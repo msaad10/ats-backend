@@ -88,4 +88,8 @@ public class ScheduledInterviewService {
     public void deleteInterview(Long id) {
         scheduledInterviewRepository.deleteById(id);
     }
+
+    public List<ScheduledInterview> getInterviewsByCandidateId(Long candidateId) {
+        return scheduledInterviewRepository.findByJobCandidate_User_Id(candidateId);
+    }
 } 
