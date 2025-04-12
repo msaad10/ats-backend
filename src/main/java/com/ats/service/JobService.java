@@ -19,6 +19,10 @@ public class JobService {
         return jobRepository.findAll();
     }
 
+    public List<Job> getRecentJobs() {
+        return jobRepository.findTop3ByOrderByCreatedAtDesc();
+    }
+
     public Job getJobById(Long id) {
         return jobRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Job not found with id: " + id));

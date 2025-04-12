@@ -43,6 +43,15 @@ public class JobController {
                 .collect(Collectors.toList()));
     }
 
+    @GetMapping("/recent")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER', 'CANDIDATE')")
+    public ResponseEntity<List<JobResponse>> getRecentJobs() {
+        return ResponseEntity.ok(jobService.getRecentJobs()
+                .stream()
+                .map(jobMapper::toResponse)
+                .collect(Collectors.toList()));
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('RECRUITER')")
     public ResponseEntity<JobResponse> updateJob(
