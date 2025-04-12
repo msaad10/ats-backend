@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,17 +25,25 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    @Transactional
     public AuthResponse register(RegisterRequest request) {
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole() != null ? request.getRole() : Role.RECRUITER)
+                .role(request.getRole())
                 .build();
-        var savedUser = userRepository.save(user);
+        
+        user = userRepository.save(user);
+
+        // If role is CANDIDATE and skills are provided, create user details
+        if (request.getRole() == Role.CANDIDATE && request.getSkills() != null) {
+            user.setSkills(request.getSkills());
+        }
+
         var jwtToken = jwtService.generateToken(user);
-        saveUserToken(savedUser, jwtToken);
+        saveUserToken(user, jwtToken);
         return AuthResponse.builder()
                 .token(jwtToken)
                 .role(user.getRole())

@@ -10,15 +10,15 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
-        
+
         UserResponse response = new UserResponse();
         response.setId(user.getId());
-        response.setUsername(user.getFullName());
+        response.setUserName(user.getFullName());
         response.setEmail(user.getEmail());
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());
         response.setRole(user.getRole());
-        
+
         return response;
     }
 } 

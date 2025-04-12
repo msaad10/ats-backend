@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,4 +29,6 @@ public class RegisterRequest {
     private String password;
 
     private Role role;
+
+    private List<String> skills; // Nullable, only used when role is CANDIDATE
 } 

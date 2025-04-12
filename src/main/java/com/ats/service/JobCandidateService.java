@@ -11,6 +11,7 @@ import com.ats.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class JobCandidateService {
     private JobRepository jobRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ResumeMatcherService resumeMatcherService;
 
     public JobCandidate createJobCandidate(JobCandidateRequest request) {
         if (jobCandidateRepository.existsByJobIdAndUserId(
@@ -41,11 +44,13 @@ public class JobCandidateService {
         if (user == null) {
             throw new RuntimeException("User not found");
         }
-
+        File resumeFile = new File("src/main/resources/resumes/" + user.getId() + ".pdf");
+        int match = resumeMatcherService.match(resumeFile, job.getDescription());
         JobCandidate jobCandidate = new JobCandidate();
         jobCandidate.setJob(job);
         jobCandidate.setUser(user);
         jobCandidate.setNotes(request.getNotes());
+        jobCandidate.setMatchScore(match);
         jobCandidate.setCurrentStage(CandidateStage.APPLIED.toString());
         jobCandidate.setAppliedAt(LocalDateTime.now());
         return jobCandidateRepository.save(jobCandidate);

@@ -17,6 +17,7 @@ public class JobCandidateMapper {
         JobCandidateResponse response = new JobCandidateResponse();
         response.setId(jobCandidate.getId());
         response.setJobId(jobCandidate.getJob().getId());
+        response.setJobDepartment(jobCandidate.getJob().getDepartment());
         response.setJobTitle(jobCandidate.getJob().getTitle());
         response.setUserId(jobCandidate.getUser().getId());
         response.setUserName(jobCandidate.getUser().getFullName());
