@@ -19,7 +19,7 @@ public class JobCandidateMapper {
         response.setJobId(jobCandidate.getJob().getId());
         response.setJobTitle(jobCandidate.getJob().getTitle());
         response.setUserId(jobCandidate.getUser().getId());
-        response.setUserName(jobCandidate.getUser().getUsername());
+        response.setUserName(jobCandidate.getUser().getFullName());
         response.setEmail(jobCandidate.getUser().getEmail());
         response.setCurrentStage(jobCandidate.getCurrentStage());
         response.setNotes(jobCandidate.getNotes());

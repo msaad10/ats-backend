@@ -49,7 +49,11 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return firstName + " " + firstName;
+        return email;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     @Override
