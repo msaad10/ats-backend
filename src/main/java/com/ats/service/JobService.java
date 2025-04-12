@@ -40,4 +40,5 @@ public class JobService {
         Job job = getJobById(id);
         jobRepository.delete(job);
     }
+
 } 
