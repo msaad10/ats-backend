@@ -45,7 +45,7 @@ public class JobCandidateService {
             throw new RuntimeException("User not found");
         }
 
-        if (Boolean.FALSE.equals(user.getIsResumeUploaded())) {
+        if (!Boolean.TRUE.equals(user.getIsResumeUploaded())) {
             throw new RuntimeException("Resume not uploaded");
         }
 

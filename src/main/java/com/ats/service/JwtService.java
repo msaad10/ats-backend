@@ -44,7 +44,6 @@ public class JwtService {
             extraClaims.put("role", user.getRole().name());
             extraClaims.put("userName", user.getFirstName() + " " + user.getLastName());
             extraClaims.put("userId", user.getId());
-            extraClaims.put("isResumeUploaded", user.getIsResumeUploaded());
         }
         return generateToken(extraClaims, userDetails);
     }
