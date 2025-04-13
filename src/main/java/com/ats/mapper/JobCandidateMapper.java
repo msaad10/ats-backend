@@ -25,6 +25,7 @@ public class JobCandidateMapper {
         response.setCurrentStage(jobCandidate.getCurrentStage());
         response.setNotes(jobCandidate.getNotes());
         response.setAppliedAt(jobCandidate.getAppliedAt().toString());
+        response.setMatchScore(jobCandidate.getMatchScore());
         return response;
     }
 } 

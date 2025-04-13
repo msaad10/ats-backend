@@ -14,4 +14,5 @@ public class JobCandidateResponse {
     private String currentStage;
     private String notes;
     private String appliedAt;
+    private int matchScore;
 } 
