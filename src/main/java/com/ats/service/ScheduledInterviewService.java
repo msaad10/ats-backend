@@ -5,6 +5,7 @@ import com.ats.dto.interview.UpdateInterviewRequest;
 import com.ats.dto.interview.UpdateInterviewResultRequest;
 import com.ats.model.CandidateStage;
 import com.ats.model.InterviewResult;
+import com.ats.model.InterviewType;
 import com.ats.model.JobCandidate;
 import com.ats.model.ScheduledInterview;
 import com.ats.model.User;
@@ -89,6 +90,11 @@ public class ScheduledInterviewService {
         interview.setResult(request.getResult());
         interview.setFeedback(request.getFeedback());
         interview.setInterviewScores(request.getScores());
+        if(request.getResult() == InterviewResult.PASSED && interview.getInterviewType() == InterviewType.DIRECTOR) {
+            interview.getJobCandidate().setCurrentStage(CandidateStage.HIRED.toString());
+        } else if (request.getResult() == InterviewResult.FAILED) {
+            interview.getJobCandidate().setCurrentStage(CandidateStage.REJECTED.toString());
+        }
         return scheduledInterviewRepository.save(interview);
     }
 
