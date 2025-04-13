@@ -56,7 +56,7 @@ public class CandidateService {
             Files.deleteIfExists(filePath);
             Files.copy(file.getInputStream(), filePath);
 
-            user.setResumeUploaded(true);
+            user.setIsResumeUploaded(true);
             userRepository.save(user);
 
             return "Resume uploaded successfully: " + filename;
