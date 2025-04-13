@@ -44,6 +44,11 @@ public class JobCandidateService {
         if (user == null) {
             throw new RuntimeException("User not found");
         }
+
+        if (Boolean.FALSE.equals(user.getIsResumeUploaded())) {
+            throw new RuntimeException("Resume not uploaded");
+        }
+
         File resumeFile = new File("src/main/resources/resumes/" + user.getId() + ".pdf");
         int match = resumeMatcherService.match(resumeFile, job.getDescription());
         JobCandidate jobCandidate = new JobCandidate();
