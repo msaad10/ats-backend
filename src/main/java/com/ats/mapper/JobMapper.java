@@ -3,10 +3,15 @@ package com.ats.mapper;
 import com.ats.dto.job.JobRequest;
 import com.ats.dto.job.JobResponse;
 import com.ats.model.Job;
+import com.ats.repository.JobCandidateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JobMapper {
+    @Autowired
+    private JobCandidateRepository jobCandidateRepository;
+
     public Job toEntity(JobRequest request) {
         Job job = new Job();
         job.setTitle(request.getTitle());
@@ -26,6 +31,7 @@ public class JobMapper {
         response.setStatus(String.valueOf(job.getStatus()));
         response.setCreatedAt(job.getCreatedAt().toString());
         response.setUpdatedAt(job.getUpdatedAt().toString());
+        response.setApplicationCount(jobCandidateRepository.countByJobId(job.getId()));
         return response;
     }
 } 

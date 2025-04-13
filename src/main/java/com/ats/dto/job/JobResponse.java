@@ -16,4 +16,5 @@ public class JobResponse {
     private String status;
     private String createdAt;
     private String updatedAt;
+    private long applicationCount;
 } 
