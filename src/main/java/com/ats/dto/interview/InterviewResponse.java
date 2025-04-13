@@ -18,8 +18,7 @@ public class InterviewResponse {
     private String jobTitle;
     private LocalDateTime dateTime;
     private String details;
-    private InterviewType interviewType;
-    private String formattedInterviewType;
+    private String interviewType;
     private InterviewResult result;
     private String feedback;
     private List<InterviewScore> interviewScores;

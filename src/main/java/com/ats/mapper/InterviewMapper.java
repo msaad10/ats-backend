@@ -37,8 +37,7 @@ public class InterviewMapper {
         response.setJobTitle(interview.getJobCandidate().getJob().getTitle());
         response.setDateTime(interview.getDateTime());
         response.setDetails(interview.getDetails());
-        response.setInterviewType(interview.getInterviewType());
-        response.setFormattedInterviewType(formatInterviewType(interview.getInterviewType()));
+        response.setInterviewType(formatInterviewType(interview.getInterviewType()));
         response.setResult(interview.getResult());
         response.setFeedback(interview.getFeedback());
         response.setInterviewScores(interview.getInterviewScores());
