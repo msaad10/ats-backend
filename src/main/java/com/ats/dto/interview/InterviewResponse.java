@@ -5,6 +5,7 @@ import com.ats.model.InterviewType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class InterviewResponse {
@@ -20,4 +21,5 @@ public class InterviewResponse {
     private InterviewType interviewType;
     private InterviewResult result;
     private String feedback;
+    public List<InterviewScore> interviewScores;
 } 

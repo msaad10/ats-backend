@@ -22,6 +22,7 @@ public class InterviewMapper {
         interview.setInterviewType(request.getInterviewType());
         interview.setResult(request.getResult());
         interview.setFeedback(request.getFeedback());
+        interview.setInterviewScores(request.getInterviewScores());
     }
 
     public InterviewResponse toResponse(ScheduledInterview interview) {
@@ -38,6 +39,7 @@ public class InterviewMapper {
         response.setInterviewType(interview.getInterviewType());
         response.setResult(interview.getResult());
         response.setFeedback(interview.getFeedback());
+        response.setInterviewScores(interview.getInterviewScores());
         return response;
     }
 } 

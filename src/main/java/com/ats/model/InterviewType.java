@@ -7,5 +7,8 @@ public enum InterviewType {
     CODING,
     HR,
     MANAGERIAL,
-    CULTURE_FIT
+    CULTURE_FIT,
+    INITIAL_SCREENING,
+    ARCHITECT,
+    DIRECTOR
 } 

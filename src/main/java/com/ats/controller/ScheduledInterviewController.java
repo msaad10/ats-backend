@@ -3,7 +3,7 @@ package com.ats.controller;
 import com.ats.dto.interview.InterviewResponse;
 import com.ats.dto.interview.ScheduleInterviewRequest;
 import com.ats.dto.interview.UpdateInterviewRequest;
-import com.ats.dto.interview.UpdateInterviewStatusRequest;
+import com.ats.dto.interview.UpdateInterviewResultRequest;
 import com.ats.mapper.InterviewMapper;
 import com.ats.service.ScheduledInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,12 +77,12 @@ public class ScheduledInterviewController {
         return ResponseEntity.ok(interviewMapper.toResponse(scheduledInterviewService.updateInterview(id, request)));
     }
 
-    @PutMapping("/{id}/status")
+    @PutMapping("/{id}/result")
     @PreAuthorize("hasAnyRole('RECRUITER', 'INTERVIEWER')")
-    public ResponseEntity<InterviewResponse> updateInterviewStatus(
+    public ResponseEntity<InterviewResponse> updateInterviewResult(
             @PathVariable Long id,
-            @RequestBody UpdateInterviewStatusRequest request) {
-        return ResponseEntity.ok(interviewMapper.toResponse(scheduledInterviewService.updateInterviewStatus(id, request)));
+            @RequestBody UpdateInterviewResultRequest request) {
+        return ResponseEntity.ok(interviewMapper.toResponse(scheduledInterviewService.updateInterviewResult(id, request)));
     }
 
     @DeleteMapping("/{id}")

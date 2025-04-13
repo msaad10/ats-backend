@@ -1,8 +1,22 @@
 package com.ats.model;
 
-import jakarta.persistence.*;
+import com.ats.dto.interview.InterviewScore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -36,4 +50,8 @@ public class ScheduledInterview {
 
     @Column(columnDefinition = "TEXT")
     private String feedback;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    public List<InterviewScore> interviewScores;
 } 

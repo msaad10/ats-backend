@@ -2,10 +2,14 @@ package com.ats.dto.interview;
 
 import com.ats.model.InterviewResult;
 import com.ats.model.InterviewType;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class UpdateInterviewRequest {
@@ -20,4 +24,6 @@ public class UpdateInterviewRequest {
     private InterviewResult result;
 
     private String feedback;
+
+    public List<InterviewScore> interviewScores;
 } 

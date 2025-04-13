@@ -2,7 +2,7 @@ package com.ats.service;
 
 import com.ats.dto.interview.ScheduleInterviewRequest;
 import com.ats.dto.interview.UpdateInterviewRequest;
-import com.ats.dto.interview.UpdateInterviewStatusRequest;
+import com.ats.dto.interview.UpdateInterviewResultRequest;
 import com.ats.model.CandidateStage;
 import com.ats.model.InterviewResult;
 import com.ats.model.JobCandidate;
@@ -80,13 +80,15 @@ public class ScheduledInterviewService {
         existingInterview.setInterviewType(request.getInterviewType());
         existingInterview.setResult(request.getResult());
         existingInterview.setFeedback(request.getFeedback());
+        existingInterview.setInterviewScores(request.getInterviewScores());
         return scheduledInterviewRepository.save(existingInterview);
     }
 
-    public ScheduledInterview updateInterviewStatus(Long id, UpdateInterviewStatusRequest request) {
+    public ScheduledInterview updateInterviewResult(Long id, UpdateInterviewResultRequest request) {
         ScheduledInterview interview = getInterview(id);
         interview.setResult(request.getResult());
         interview.setFeedback(request.getFeedback());
+        interview.setInterviewScores(request.getScores());
         return scheduledInterviewRepository.save(interview);
     }
 
