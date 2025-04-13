@@ -47,7 +47,7 @@ public class User implements UserDetails {
 
     private List<String> skills;
 
-    private boolean isResumeUploaded;
+    private Boolean isResumeUploaded;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
