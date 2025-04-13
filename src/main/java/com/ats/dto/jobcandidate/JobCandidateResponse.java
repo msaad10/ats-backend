@@ -1,6 +1,9 @@
 package com.ats.dto.jobcandidate;
 
+import com.ats.dto.interview.InterviewResponse;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class JobCandidateResponse {
@@ -15,4 +18,5 @@ public class JobCandidateResponse {
     private String notes;
     private String appliedAt;
     private int matchScore;
+    private List<InterviewResponse> scheduledInterviews;
 } 

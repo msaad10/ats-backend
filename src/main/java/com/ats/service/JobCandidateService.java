@@ -8,6 +8,8 @@ import com.ats.model.User;
 import com.ats.repository.JobCandidateRepository;
 import com.ats.repository.JobRepository;
 import com.ats.repository.UserRepository;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class JobCandidateService {
     private UserRepository userRepository;
     @Autowired
     private ResumeMatcherService resumeMatcherService;
+    @Autowired
+    private EntityManager entityManager;
 
     public JobCandidate createJobCandidate(JobCandidateRequest request) {
         if (jobCandidateRepository.existsByJobIdAndUserId(
@@ -71,7 +75,16 @@ public class JobCandidateService {
     }
 
     public List<JobCandidate> getJobCandidatesByUser(Long userId) {
-        return jobCandidateRepository.findByUserId(userId);
+        EntityGraph<JobCandidate> entityGraph = entityManager.createEntityGraph(JobCandidate.class);
+        entityGraph.addAttributeNodes("scheduledInterviews");
+        entityGraph.addAttributeNodes("job");
+        entityGraph.addAttributeNodes("user");
+
+        return entityManager.createQuery(
+                "SELECT jc FROM JobCandidate jc WHERE jc.user.id = :userId", JobCandidate.class)
+                .setParameter("userId", userId)
+                .setHint("jakarta.persistence.loadgraph", entityGraph)
+                .getResultList();
     }
 
     public JobCandidate updateJobCandidate(Long id, JobCandidateRequest request) {
