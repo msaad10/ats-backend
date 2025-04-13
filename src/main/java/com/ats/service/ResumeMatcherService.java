@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,26 +39,31 @@ public class ResumeMatcherService {
     }
 
     private int calculateMatchScore(String resumeText, String jobDescription) {
-        // Convert both texts to lowercase and split into words
-        List<String> resumeWords = Arrays.stream(resumeText.toLowerCase().split("\\W+"))
-                .filter(word -> word.length() > 3) // Filter out short words
-                .collect(Collectors.toList());
-        
-        List<String> jobWords = Arrays.stream(jobDescription.toLowerCase().split("\\W+"))
+        if (resumeText == null || jobDescription == null) return 0;
+
+        // Convert to lowercase and extract words longer than 3 characters
+        Set<String> resumeWords = Arrays.stream(resumeText.toLowerCase().split("\\W+"))
                 .filter(word -> word.length() > 3)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
-        // Count matching words
-        long matchingWords = resumeWords.stream()
-                .filter(jobWords::contains)
-                .count();
+        Set<String> jobWords = Arrays.stream(jobDescription.toLowerCase().split("\\W+"))
+                .filter(word -> word.length() > 3)
+                .collect(Collectors.toSet());
 
-        // Calculate score (0-100)
-        if (jobWords.isEmpty()) {
+        if (resumeWords.isEmpty() || jobWords.isEmpty()) {
             return 0;
         }
 
-        double score = ((double) matchingWords / jobWords.size()) * 100;
-        return (int) Math.min(100, Math.max(0, score));
+        // Find intersection
+        Set<String> intersection = new HashSet<>(resumeWords);
+        intersection.retainAll(jobWords);
+
+        // Calculate score as overlap percentage
+        double overlapRatio = (double) intersection.size() / jobWords.size();
+
+        // Optional: apply a smoothing factor or boost for more nuanced score
+        double score = overlapRatio * 100;
+
+        return (int) Math.round(score);
     }
 } 
