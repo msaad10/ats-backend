@@ -3,6 +3,7 @@ package com.ats.mapper;
 import com.ats.dto.interview.InterviewResponse;
 import com.ats.dto.interview.ScheduleInterviewRequest;
 import com.ats.dto.interview.UpdateInterviewRequest;
+import com.ats.model.InterviewType;
 import com.ats.model.ScheduledInterview;
 import org.springframework.stereotype.Component;
 
@@ -37,9 +38,27 @@ public class InterviewMapper {
         response.setDateTime(interview.getDateTime());
         response.setDetails(interview.getDetails());
         response.setInterviewType(interview.getInterviewType());
+        response.setFormattedInterviewType(formatInterviewType(interview.getInterviewType()));
         response.setResult(interview.getResult());
         response.setFeedback(interview.getFeedback());
         response.setInterviewScores(interview.getInterviewScores());
         return response;
+    }
+
+    private String formatInterviewType(InterviewType interviewType) {
+        if (interviewType == null) {
+            return null;
+        }
+        // Split by underscore and capitalize each word
+        String[] words = interviewType.name().split("_");
+        StringBuilder formatted = new StringBuilder();
+        for (String word : words) {
+            if (formatted.length() > 0) {
+                formatted.append(" ");
+            }
+            formatted.append(word.substring(0, 1).toUpperCase())
+                    .append(word.substring(1).toLowerCase());
+        }
+        return formatted.toString();
     }
 } 
